@@ -19,21 +19,22 @@ import tensorflow as tf
 import core.utils as utils
 from core.config import cfg
 from core.yolov3 import YOLOv3, decode
-
+import matplotlib.pyplot as plt
 
 INPUT_SIZE   = 416
 NUM_CLASS    = len(utils.read_class_names(cfg.YOLO.CLASSES))
 CLASSES      = utils.read_class_names(cfg.YOLO.CLASSES)
 
-predicted_dir_path = '../mAP/predicted'
-ground_truth_dir_path = '../mAP/ground-truth'
-if os.path.exists(predicted_dir_path): shutil.rmtree(predicted_dir_path)
-if os.path.exists(ground_truth_dir_path): shutil.rmtree(ground_truth_dir_path)
-if os.path.exists(cfg.TEST.DECTECTED_IMAGE_PATH): shutil.rmtree(cfg.TEST.DECTECTED_IMAGE_PATH)
+predicted_dir_path = './mAP/predicted'
+ground_truth_dir_path = './mAP/ground-truth'
+# os.mkdir(predicted_dir_path)
+# os.mkdir(ground_truth_dir_path)
+# os.mkdir(cfg.TEST.DECTECTED_IMAGE_PATH)
+# if os.path.exists(predicted_dir_path): shutil.rmtree(predicted_dir_path)
+# if os.path.exists(ground_truth_dir_path): shutil.rmtree(ground_truth_dir_path)
+# if os.path.exists(cfg.TEST.DECTECTED_IMAGE_PATH): shutil.rmtree(cfg.TEST.DECTECTED_IMAGE_PATH)
 
-os.mkdir(predicted_dir_path)
-os.mkdir(ground_truth_dir_path)
-os.mkdir(cfg.TEST.DECTECTED_IMAGE_PATH)
+
 
 # Build Model
 input_layer  = tf.keras.layers.Input([INPUT_SIZE, INPUT_SIZE, 3])
@@ -98,7 +99,10 @@ with open(cfg.TEST.ANNOT_PATH, 'r') as annotation_file:
                 class_name = CLASSES[class_ind]
                 score = '%.4f' % score
                 xmin, ymin, xmax, ymax = list(map(str, coor))
+
+                cv2.rectangle(image,(int(xmin),int(ymin)),(int(xmax),int(ymax)),(234,43,223), 2)
+                plt.imshow(image)
+                plt.show()
                 bbox_mess = ' '.join([class_name, score, xmin, ymin, xmax, ymax]) + '\n'
                 f.write(bbox_mess)
                 print('\t' + str(bbox_mess).strip())
-
