@@ -2,8 +2,8 @@
 import numpy as np
 import cv2
 import random
-Angles = [10, -5,20,-30]
-Trans_Select_Imgs = 10
+Angles = [10, -5,10,-30,40,60]
+Trans_Select_Imgs = 6
 def read_imgs(imgs_path):
     imgs_name = os.listdir(imgs_path)
     imgs = []
@@ -47,11 +47,12 @@ def translate_img(img, x_shift, y_shift):
 def get_trans_imgs(imgs, trans_img_path):
     imgs_num = len(imgs)
     np.random.seed(2)
+
     random_imgs = np.random.randint(0, imgs_num, Trans_Select_Imgs)
     for img_idx in random_imgs:
         # 获得随机平移坐标
-        x_shift = np.random.randint(-18, 18, 1)
-        y_shift = np.random.randint(-18, 18, 1)
+        x_shift = np.random.randint(-30,30, 1)
+        y_shift = np.random.randint(-30,30, 1)
         trans_img = translate_img(imgs[img_idx], x_shift, y_shift)
         # 保存平移图片和平移坐标
         trans_img_name = str(img_idx) + '_' + str(x_shift[0]) + '_' + str(y_shift[0]) + '.jpg'
@@ -113,9 +114,6 @@ if __name__ == "__main__":
     get_rotate_imgs(imgs, path)
     print('========图像平移==========')
     get_trans_imgs(imgs,path)
-    imgs = read_imgs(path)
-    print('==========噪声===========')
-    sp_noise(imgs,path)
     print('========图像重命名==========')
     rename_pic(path)
     print('***********done************')
