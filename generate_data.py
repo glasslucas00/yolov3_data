@@ -108,12 +108,13 @@ def rename_pic(path):
         num+=1
 
 if __name__ == "__main__":
-    path='./pic_test/'
+    path='./pic/'
     imgs = read_imgs(path)
-    print('========图像旋转==========')
-    get_rotate_imgs(imgs, path)
-    print('========图像平移==========')
-    get_trans_imgs(imgs,path)
-    print('========图像重命名==========')
-    rename_pic(path)
+    sp_noise(imgs, path)
+    # print('========图像旋转==========')
+    # get_rotate_imgs(imgs, path)
+    # print('========图像平移==========')
+    # get_trans_imgs(imgs,path)
+    # print('========图像重命名==========')
+    # rename_pic(path)
     print('***********done************')
